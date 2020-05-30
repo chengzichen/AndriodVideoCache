@@ -129,6 +129,15 @@ public class HttpProxyCacheServer {
         }
     }
 
+    public void stopCacheAndShutdown(String url){
+        synchronized (clientsLock) {
+            HttpProxyCacheServerClients clients = clientsMap.get(url);
+            if (clients != null) {
+                clients.shutdown();
+            }
+        }
+    }
+
     public void unregisterCacheListener(CacheListener cacheListener, String url) {
         checkAllNotNull(cacheListener, url);
         synchronized (clientsLock) {
